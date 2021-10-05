@@ -1,0 +1,22 @@
+RAYLIB=../raylib
+LIBRAYLIB=$(RAYLIB)/src/libraylib.a
+RAYLIBINCLUDE=$(RAYLIB)/src
+
+app: main.o Object.o Cube.o
+	clang++ -I$(RAYLIBINCLUDE) -O3 -std=c++17 -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL -o app main.o Object.o Cube.o $(LIBRAYLIB)
+
+main.o: main.cpp Cube.h Object.h
+	clang++ -I$(RAYLIBINCLUDE) -O3 -std=c++17 -c -o main.o main.cpp
+
+Object.o: Object.cpp Object.h
+	clang++ -I$(RAYLIBINCLUDE) -O3 -std=c++17 -c -o Object.o Object.cpp
+
+Cube.o: Cube.cpp Cube.h Object.h
+	clang++ -I$(RAYLIBINCLUDE) -O3 -std=c++17 -c -o Cube.o Cube.cpp
+
+clean:
+	rm -f *.o
+
+mrproper: clean
+	rm -f app
+
