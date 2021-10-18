@@ -25,11 +25,6 @@ int main(void)
 
     Model model = LoadModel("assets/models/bunny.obj");
 
-    for(int i = 0; i<model.meshes[0].vertexCount; i++) {
-        model.meshes[0].texcoords[2*i]   = model.meshes[0].vertices[3*i]*10.0f;
-        model.meshes[0].texcoords[2*i+1] = model.meshes[0].vertices[3*i+1]*10.0f;
-    }
-    UpdateMeshBuffer(model.meshes[0], SHADER_LOC_VERTEX_TEXCOORD01, model.meshes[0].texcoords, model.meshes[0].vertexCount*2*sizeof(float), 0);
     GenMeshTangents(model.meshes);
     Texture texture = LoadTexture("assets/textures/texel_checker.png");
     Shader shader = LoadShader("assets/shaders/base.vs", "assets/shaders/base.fs");
