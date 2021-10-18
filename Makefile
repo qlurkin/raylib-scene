@@ -7,25 +7,32 @@ ifeq ($(OS),Windows_NT)
    RAYLIB=C:/raylib/raylib
    CC=C:/raylib/mingw/bin/g++
    INCLUDES=-I$(RAYLIB)/src -I$(RAYLIB)/src/external
-   LIBs=-L$(RAYLIB)/src -lraylib -lopengl32 -lgdi32 -lwinmm C:/raylib/raylib/src/raylib.rc.data
+   LIBS=-L$(RAYLIB)/src -lraylib -lopengl32 -lgdi32 -lwinmm C:/raylib/raylib/src/raylib.rc.data
 else
    UNAMEOS=$(shell uname)
    ifeq ($(UNAMEOS),Darwin)
       PLATFORM_OS=OSX
       RAYLIB=../raylib
       CC=clang++
-      INCLUDES=-I$(RAYLIB)/src
-      LIBs=$(RAYLIB)/src/libraylib.a -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
+      INCLUDES=-I$(RAYLIB)/src -I$(RAYLIB)/src/external
+      LIBS=$(RAYLIB)/src/libraylib.a -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
    endif
    ifeq ($(UNAMEOS),Linux)
+      # Not Tested !!
       PLATFORM_OS=LINUX
+      CC=g++
+      INCLUDES=
+      LIBS=-lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+      ifeq ($(USE_WAYLAND_DISPLAY), TRUE)
+         LIBS += -lwayland-client -lwayland-cursor -lwayland-egl -lxkbcommon
+      endif
    endif
 endif
 
 CFLAGS=-Wall -Wno-missing-braces -O3 -std=c++17
 
 app: $(OBJ)
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^ $(LIBs)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^ $(LIBS)
 
 %.o: %.cpp $(DEPS)
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
