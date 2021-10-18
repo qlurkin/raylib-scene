@@ -20,9 +20,8 @@ else
       PLATFORM_OS=LINUX
       CC=g++
       LIBS=-lraylib -lGL -lm -lpthread -ldl -lrt -lX11
-      ifeq ($(USE_WAYLAND_DISPLAY), TRUE)
-         LIBS += -lwayland-client -lwayland-cursor -lwayland-egl -lxkbcommon
-      endif
+      #For Wayland
+      #LIBS += -lwayland-client -lwayland-cursor -lwayland-egl -lxkbcommon
    endif
 endif
 
