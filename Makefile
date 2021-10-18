@@ -8,8 +8,7 @@ ifeq ($(OS),Windows_NT)
    LIBRAYLIB=$(RAYLIB)/
    RAYLIBINCLUDE=-I. -I$(RAYLIB)/src -I$(RAYLIB)/src/external
    CC=C:/raylib/mingw/bin/g++
-   CFLAGS=-Wall -D_DEFAULT_SOURCE -Wno-missing-braces -s -O1 $(RAYLIBINCLUDE) -DPLATFORM_DESKTOP
-   FRAMEWORK=
+   CFLAGS=-Wall -Wno-missing-braces -s -O3 -std=c++17 $(RAYLIBINCLUDE)
    LIBRAYLIB=-L. -L$(RAYLIB)/src -lraylib -lopengl32 -lgdi32 -lwinmm C:/raylib/raylib/src/raylib.rc.data
 else
    UNAMEOS=$(shell uname)
@@ -17,10 +16,9 @@ else
       PLATFORM_OS=OSX
       RAYLIB=../raylib
       CC=clang++
-      FRAMEWORK =
       LIBRAYLIB=$(RAYLIB)/src/libraylib.a -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
       RAYLIBINCLUDE=-I$(RAYLIB)/src
-      CFLAGS=$(RAYLIBINCLUDE) -O3 -std=c++17
+      CFLAGS=-O3 -std=c++17 $(RAYLIBINCLUDE)
    endif
    ifeq ($(UNAMEOS),Linux)
       PLATFORM_OS=LINUX

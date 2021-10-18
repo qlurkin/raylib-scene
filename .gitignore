@@ -1,3 +1,4 @@
 *.o
+*.exe
 app
 .DS_Store
