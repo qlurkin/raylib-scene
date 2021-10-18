@@ -1,3 +1,5 @@
+BUILD_MODE ?= RELEASE
+
 DEPS = Cube.h Object.h
 OBJ = main.o Object.o Cube.o
 
@@ -26,7 +28,13 @@ else
 endif
 
 INCLUDES=-I$(RAYLIB)/src -I$(RAYLIB)/src/external
-CFLAGS=-Wall -Wno-missing-braces -O3 -std=c++17
+CFLAGS=-Wall -Wno-missing-braces -std=c++17
+
+ifeq ($(BUILD_MODE),DEBUG)
+   CFLAGS += -g -O0
+else
+   CFLAGS += -s -O3
+endif
 
 app: $(OBJ)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^ $(LIBS)
