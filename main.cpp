@@ -1,6 +1,8 @@
 #include <raylib.h>
 #include "rlgl.h"
 #include "Cube.h"
+#include "ModelObject.h"
+#include <raymath.h>
 
 int main(void)
 {
@@ -10,7 +12,7 @@ int main(void)
     InitWindow(screenWidth, screenHeight, "LUR - Scene Example");
 
     Camera camera = { 0 };
-    camera.position = { 16.0f, 16.0f, 16.0f };
+    camera.position = { 5.0f, 5.0f, 5.0f };
     camera.target = { 0.0f, 0.0f, 0.0f };
     camera.up = { 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
@@ -21,38 +23,27 @@ int main(void)
 
     Object scene = Object();
 
-    Cube central = Cube();
-    scene.add(&central);
-    
-    Object turn120 = Object();
-    turn120.rotation.y = 2*PI/3;
-    central.add(&turn120);
-    
-    Object turn240 = Object();
-    turn240.rotation.y = 4*PI/3;
-    central.add(&turn240);
+    Model model = LoadModel("assets/models/bunny.obj");
 
-    Cube orbit = Cube();
-    orbit.position.x = 2.0f;
-    orbit.scale = {0.5, 0.5, 0.5};
-    central.add(&orbit);
-    turn240.add(&orbit);
-    turn120.add(&orbit);
+    for(int i = 0; i<model.meshes[0].vertexCount; i++) {
+        model.meshes[0].texcoords[2*i]   = model.meshes[0].vertices[3*i]*10.0f;
+        model.meshes[0].texcoords[2*i+1] = model.meshes[0].vertices[3*i+1]*10.0f;
+    }
+    UpdateMeshBuffer(model.meshes[0], SHADER_LOC_VERTEX_TEXCOORD01, model.meshes[0].texcoords, model.meshes[0].vertexCount*2*sizeof(float), 0);
+    GenMeshTangents(model.meshes);
+    Texture texture = LoadTexture("assets/textures/texel_checker.png");
+    Shader shader = LoadShader("assets/shaders/base.vs", "assets/shaders/base.fs");
 
-    Object orbitTurn120 = Object();
-    orbitTurn120.rotation.y = 2*PI/3;
-    orbit.add(&orbitTurn120);
-    
-    Object orbitTurn240 = Object();
-    orbitTurn240.rotation.y = 4*PI/3;
-    orbit.add(&orbitTurn240);
+    model.materials[0].shader = shader;
+    model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 
-    Cube satelit = Cube();
-    satelit.position.x = 2.0f;
-    satelit.scale = {0.5, 0.5, 0.5};
-    orbit.add(&satelit);
-    orbitTurn240.add(&satelit);
-    orbitTurn120.add(&satelit);
+    int lightPosLoc = GetShaderLocation(shader, "lightPos");
+    SetShaderValue(shader, lightPosLoc, (float[]){ 0.0f, 5.0f, 5.0f }, SHADER_UNIFORM_VEC3);
+
+    ModelObject bunny = ModelObject(model);
+    bunny.scale(10.0f);
+
+    scene.add(&bunny);
 
     while (!WindowShouldClose())
     {
@@ -60,12 +51,10 @@ int main(void)
         BeginDrawing();
             ClearBackground(RAYWHITE);
             BeginMode3D(camera);
+                DrawGrid(10, 1.0f);
 
                 scene.render();
-                central.rotation.y += 0.05;
-                orbit.rotation.y -= 0.1;
-                satelit.rotation.y += 0.1;
-
+                bunny.rotateY(0.05);
             EndMode3D();
             DrawFPS(10, 10);
         EndDrawing();

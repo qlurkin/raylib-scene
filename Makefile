@@ -1,7 +1,7 @@
 BUILD_MODE ?= RELEASE
 
-DEPS = Cube.h Object.h
-OBJ = main.o Object.o Cube.o
+DEPS = Cube.h Object.h ModelObject.h
+OBJ = main.o Object.o Cube.o ModelObject.o
 
 PLATFORM_OS=BSD
 ifeq ($(OS),Windows_NT)
