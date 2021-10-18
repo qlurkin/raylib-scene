@@ -1,6 +1,10 @@
 #include "Object.h"
 
 class Cube : public Object {
+    private:
+        Mesh mesh;
+        Material material;
     public:
-        virtual void draw();
+        Cube();
+        virtual void draw(Matrix matModel);
 };
