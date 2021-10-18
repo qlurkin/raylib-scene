@@ -19,7 +19,6 @@ else
       # Not Tested !!
       PLATFORM_OS=LINUX
       CC=g++
-      INCLUDES=
       LIBS=-lraylib -lGL -lm -lpthread -ldl -lrt -lX11
       ifeq ($(USE_WAYLAND_DISPLAY), TRUE)
          LIBS += -lwayland-client -lwayland-cursor -lwayland-egl -lxkbcommon
