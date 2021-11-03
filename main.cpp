@@ -36,7 +36,8 @@ int main(void)
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 
     int lightPosLoc = GetShaderLocation(shader, "lightPos");
-    SetShaderValue(shader, lightPosLoc, (float[]){ 0.0f, 5.0f, 5.0f }, SHADER_UNIFORM_VEC3);
+    float lightPos[] = { 0.0f, 5.0f, 5.0f };
+    SetShaderValue(shader, lightPosLoc, lightPos, SHADER_UNIFORM_VEC3);
 
     ModelObject bunny = ModelObject(model);
     bunny.scale(10.0f);
