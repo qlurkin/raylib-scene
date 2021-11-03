@@ -33,7 +33,7 @@ CFLAGS=-Wall -Wno-missing-braces -std=c++17
 ifeq ($(BUILD_MODE),DEBUG)
    CFLAGS += -g -O0
 else
-   CFLAGS += -s -O3
+   CFLAGS += -O3
 endif
 
 app: $(OBJ)

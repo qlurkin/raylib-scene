@@ -26,7 +26,7 @@ vec3 unHomogenous(vec4 v)
 
 void main()
 {
-    vec4 texelColor = texture(texture0, fragTexCoord);
+    vec4 texelColor = texture(texture0, fragTexCoord*5);
 
     // Only keep the rotation (and scaling). It only works if scaling is uniform.
     // Otherwise matNormal is transpose(inverse(matModel)) which is more compute heavy

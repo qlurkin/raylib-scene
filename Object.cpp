@@ -17,20 +17,11 @@ void Object::render() {
 }
 
 void Object::render(Matrix matModel) {
-    //rlMatrixMode(RL_MODELVIEW);
-    //rlPushMatrix();
-    //rlTranslatef(position.x, position.y, position.z);
-    //rlMultMatrixf(MatrixToFloatV(MatrixRotateXYZ(rotation)).v);
-    //rlRotatef(rotation.x*180/PI, 1.0f, 0.0f, 0.0f);
-    //rlRotatef(rotation.y*180/PI, 0.0f, 1.0f, 0.0f);
-    //rlRotatef(rotation.z*180/PI, 0.0f, 0.0f, 1.0f);
-    //rlScalef(size.x, size.y, size.z);
     matModel = MatrixMultiply(matModel, getTransform());
     draw(matModel);
     for(Object* obj : children) {
         obj->render(matModel);
     }
-    //rlPopMatrix();
 }
 
 void Object::draw(Matrix matModel) {}

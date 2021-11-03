@@ -19,17 +19,20 @@ int main(void)
     camera.projection = CAMERA_PERSPECTIVE;
 
     SetCameraMode(camera, CAMERA_FREE); 
+    SetCameraPanControl(3);
     SetTargetFPS(60);
 
     Object scene = Object();
 
     Model model = LoadModel("assets/models/bunny.obj");
 
-    GenMeshTangents(model.meshes);
-    Texture texture = LoadTexture("assets/textures/texel_checker.png");
+    MeshTangents(model.meshes);
+
+    Texture texture = LoadTexture("assets/textures/stone_wall/cgaxis_pbr_17_stone_wall_5_diffuse.png");
     Shader shader = LoadShader("assets/shaders/base.vs", "assets/shaders/base.fs");
 
     model.materials[0].shader = shader;
+    model.materials[0].shader.locs[SHADER_LOC_MATRIX_MODEL] = GetShaderLocation(model.materials[0].shader, "matModel");
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 
     int lightPosLoc = GetShaderLocation(shader, "lightPos");
@@ -49,7 +52,7 @@ int main(void)
                 DrawGrid(10, 1.0f);
 
                 scene.render();
-                bunny.rotateY(0.05);
+                bunny.rotateY(0.01);
             EndMode3D();
             DrawFPS(10, 10);
         EndDrawing();
