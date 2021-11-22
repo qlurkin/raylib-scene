@@ -1,6 +1,6 @@
 #include "Object.h"
-#include <raymath.h>
-#include <rlgl.h>
+#include "raymath.h"
+#include "rlgl.h"
 
 Object::Object() {
     position = {0.0f, 0.0f, 0.0f};

@@ -1,5 +1,5 @@
 #include "ModelObject.h"
-#include <raylib.h>
+#include "raylib.h"
 
 ModelObject::ModelObject(Model model) {
     this->model = model;

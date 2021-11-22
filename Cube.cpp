@@ -1,6 +1,6 @@
 #include "Cube.h"
-#include <raylib.h>
-#include <rlgl.h>
+#include "raylib.h"
+#include "rlgl.h"
 
 Cube::Cube() {
     mesh = GenMeshCube(1.0f, 1.0f, 1.0f);
