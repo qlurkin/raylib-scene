@@ -8,8 +8,6 @@
 
 1. cd in the repository folder.
 
-1. Checkout the submodule branch: `git checkout submodule`
-
 1. Clone the submodules: `git submodule update --init`. It takes some time.
 
 1. Download [Premake5](https://premake.github.io/download) and put `premake5.exe` in a folder of your `PATH`
@@ -23,8 +21,6 @@
 1. Clone this repository.
 
 1. cd in the repository folder.
-
-1. Checkout the submodule branch: `git checkout submodule`
 
 1. Clone the submodules: `git submodule update --init`. It takes some time.
 
