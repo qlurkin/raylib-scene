@@ -2,6 +2,7 @@
 #pragma once
 
 #include <cstddef>
+#include <sys/_types/_size_t.h>
 #ifdef __APPLE__
 #include <OpenCL/opencl.h>
 #else
@@ -19,6 +20,8 @@ class GPU {
 
 	public:
 		GPU();
+		GPU(const GPU &other);
+		void init();
 		void destroy();
 		operator cl_device_id() const;
 		operator cl_context() const;
@@ -35,8 +38,10 @@ class Buffer {
 
 	public:
 		Buffer(GPU &gpu, size_t size);
+		Buffer(const Buffer &other);
 		void destroy();
 		operator cl_mem() const;
+		void upload(void* data, size_t offset, size_t size);
 		void upload(void* data);
 		void download(void* data);
 };
@@ -52,6 +57,7 @@ class Program {
 
 	public:
 		Program(GPU &gpu, const char* filename);
+		Program(const Program &other);
 		void destroy();
 		operator cl_program() const;
 		Kernel getKernel(const char* kernelName);
@@ -64,6 +70,7 @@ class Kernel {
 
 	public:
 		Kernel(GPU &gpu, Program &program, const char* kernelName);
+		Kernel(const Kernel &other);
 		void destroy();
 		operator cl_kernel() const;
 		void setArg(cl_uint argIndex, Buffer buffer);

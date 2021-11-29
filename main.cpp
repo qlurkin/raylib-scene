@@ -21,6 +21,7 @@ void someCompute() {
 
 
 	GPU gpu;
+	gpu.init();
 
 	Buffer Abuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
 	Buffer Bbuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
