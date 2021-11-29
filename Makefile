@@ -1,7 +1,7 @@
 BUILD_MODE ?= RELEASE
 
-DEPS = Cube.h Object.h ModelObject.h
-OBJ = main.o Object.o Cube.o ModelObject.o
+DEPS = Cube.h Object.h ModelObject.h compute.h
+OBJ = main.o Object.o Cube.o ModelObject.o compute.o
 
 PLATFORM_OS=BSD
 ifeq ($(OS),Windows_NT)
@@ -15,7 +15,7 @@ else
 		PLATFORM_OS=OSX
 		RAYLIB=raylib
 		CC=clang++
-		LIBS=$(RAYLIB)/src/libraylib.a -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
+		LIBS=$(RAYLIB)/src/libraylib.a -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL -framework OpenCL
 	endif
 	ifeq ($(UNAMEOS),Linux)
 		# Not Tested !!
