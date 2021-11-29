@@ -5,6 +5,7 @@
 #include "raymath.h"
 
 #include "compute.h"
+#include "GPU.h"
 
 void someCompute() {
 	// Create the two input vectors
@@ -12,49 +13,48 @@ void someCompute() {
     const int LIST_SIZE = 1024;
     int *A = new int[LIST_SIZE];
     int *B = new int[LIST_SIZE];
+    int *C = new int[LIST_SIZE];
     for(i = 0; i < LIST_SIZE; i++) {
         A[i] = i;
         B[i] = LIST_SIZE - i;
     }
 
-	size_t source_size;
-	char *source_str = readFile("./kernel.cl", source_size);
 
-	cl_device_id device = getCLDeviceID();
-	cl_context context = createCLContext(device);
-	cl_command_queue queue = createCLCommandQueue(context, device);
+	GPU gpu;
 
-	cl_mem Abuff = createCLBuffer(context, sizeof(int) * LIST_SIZE);
-	cl_mem Bbuff = createCLBuffer(context, sizeof(int) * LIST_SIZE);
-	cl_mem Cbuff = createCLBuffer(context, sizeof(int) * LIST_SIZE);
-	
-	uploadDataToCLBuffer(queue, Abuff, A, sizeof(int) * LIST_SIZE);
-	uploadDataToCLBuffer(queue, Bbuff, B, sizeof(int) * LIST_SIZE);
+	Buffer Abuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
+	Buffer Bbuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
+	Buffer Cbuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
 
-	cl_program program = createCLProgram(context, device, source_str, source_size);
+	Abuff.upload(A);
+	Bbuff.upload(B);
 
-	cl_kernel kernel = getKernel(program, "vector_add");
+	Program program = gpu.createProgram("./kernel.cl");
 
-	setCLKernelArg(kernel, 0, Abuff);
-	setCLKernelArg(kernel, 1, Bbuff);
-	setCLKernelArg(kernel, 2, Cbuff);
+	Kernel kernel = program.getKernel("vector_add");
 
-	executeCLKernel(queue, kernel, LIST_SIZE, 64);
+	kernel.setArg(0, Abuff);
+	kernel.setArg(1, Bbuff);
+	kernel.setArg(2, Cbuff);
 
-    int *C = new int[LIST_SIZE];
-	downloadDataFromCLBuffer(queue, Cbuff, C, sizeof(int) * LIST_SIZE);
+	kernel.execute(LIST_SIZE, 64);
+
+	Cbuff.download(C);
 
 	for(i = 0; i < LIST_SIZE; i++)
         printf("%d + %d = %d\n", A[i], B[i], C[i]);
 
-	flushCLCommandQueue(queue);
-	cleanCLCommandQueue(queue);
-	cleanCLKernel(kernel);
-	cleanCLProgram(program);
-	cleanCLBuffer(Abuff);
-	cleanCLBuffer(Bbuff);
-	cleanCLBuffer(Cbuff);
-	cleanCLContext(context);
+	Abuff.destroy();
+	Bbuff.destroy();
+	Cbuff.destroy();
+
+	kernel.destroy();
+	program.destroy();
+	gpu.destroy();
+	
+	delete[] A;
+	delete[] B;
+	delete[] C;
 }
 
 int main(void)
