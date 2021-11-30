@@ -3,6 +3,7 @@
 #include "Cube.h"
 #include "ModelObject.h"
 #include "raymath.h"
+#include "ParticleSystem.h"
 
 #include "compute.h"
 #include "GPU.h"
@@ -80,25 +81,9 @@ int main(void)
 
     Object scene = Object();
 
-    Model model = LoadModel("assets/models/bunny.obj");
+    ParticleSystem ps = ParticleSystem(10);
 
-    MeshTangents(model.meshes);
-
-    Texture texture = LoadTexture("assets/textures/stone_wall/cgaxis_pbr_17_stone_wall_5_diffuse.png");
-    Shader shader = LoadShader("assets/shaders/base.vs", "assets/shaders/base.fs");
-
-    model.materials[0].shader = shader;
-    model.materials[0].shader.locs[SHADER_LOC_MATRIX_MODEL] = GetShaderLocation(model.materials[0].shader, "matModel");
-    model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
-
-    int lightPosLoc = GetShaderLocation(shader, "lightPos");
-    float lightPos[] = { 0.0f, 5.0f, 5.0f };
-    SetShaderValue(shader, lightPosLoc, lightPos, SHADER_UNIFORM_VEC3);
-
-    ModelObject bunny = ModelObject(model);
-    bunny.scale(10.0f);
-
-    scene.add(&bunny);
+    scene.add(&ps);
 
     while (!WindowShouldClose())
     {
@@ -109,7 +94,7 @@ int main(void)
                 DrawGrid(10, 1.0f);
 
                 scene.render();
-                bunny.rotateY(0.01);
+                ps.update(GetFrameTime());
             EndMode3D();
             DrawFPS(10, 10);
         EndDrawing();
