@@ -4,6 +4,7 @@
 #include "ModelObject.h"
 #include "raymath.h"
 #include "ParticleSystem.h"
+#include "Gravity.h"
 
 int main(void)
 {
@@ -26,6 +27,9 @@ int main(void)
     Object scene = Object();
 
     ParticleSystem ps = ParticleSystem(10);
+    Gravity g({0.0, -9.81, 0.0});
+
+    ps.addEffect(&g);
 
     scene.add(&ps);
 

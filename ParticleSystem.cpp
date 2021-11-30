@@ -29,7 +29,15 @@ void ParticleSystem::draw(Matrix matModel) {
 }
 
 void ParticleSystem::update(float dt) {
+    for(Effect *effect : effects) {
+        effect->apply(positions, velocities, count, dt);
+    }
+    
     for(int i=0; i<count; i++) {
         positions[i] = Vector3Add(positions[i], Vector3Scale(velocities[i], dt));
     }
+}
+
+void ParticleSystem::addEffect(Effect *effect) {
+    effects.push_back(effect);
 }
