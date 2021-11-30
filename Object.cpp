@@ -27,7 +27,11 @@ void Object::render(Matrix matModel) {
 void Object::draw(Matrix matModel) {}
 
 void Object::translate(float x, float y, float z) {
-    position = Vector3Add(position, {x, y, z});
+    this->translate({x, y, z});
+}
+
+void Object::translate(Vector3 vec) {
+    position = Vector3Add(position, vec);
 }
 
 void Object::rotateX(float value) {
@@ -54,5 +58,13 @@ Matrix Object::getTransform() {
     Matrix matTransform = MatrixMultiply(MatrixMultiply(matScale, matRotation), matTranslation);
 
     return matTransform;
+}
+
+Vector3 Object::getPosition() {
+    return position;
+}
+
+void Object::setPosition(Vector3 position) {
+    this->position = position;
 }
 

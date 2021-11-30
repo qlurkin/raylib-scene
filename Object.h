@@ -17,9 +17,12 @@ class Object {
         void render(Matrix matModel);
         virtual void draw(Matrix matModel);
         void translate(float x, float y, float z);
+        void translate(Vector3 vec);
         void rotateX(float value);
         void rotateY(float value);
         void rotateZ(float value);
         void scale(float value);
         Matrix getTransform();
+        Vector3 getPosition();
+        void setPosition(Vector3 position);
 };
