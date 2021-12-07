@@ -72,8 +72,8 @@ int main(void)
     InitWindow(screenWidth, screenHeight, "LUR - Scene Example");
 
     Camera camera = { 0 };
-    camera.position = { 5.0f, 5.0f, 5.0f };
-    camera.target = { 0.0f, 0.0f, 0.0f };
+    camera.position = { 10.0f, 2.0f, 0.0f };
+    camera.target = { 0.0f, 2.0f, 0.0f };
     camera.up = { 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
@@ -84,7 +84,7 @@ int main(void)
 
     Object scene;
 
-    ParticleSystem ps(10);
+    ParticleSystem ps(100, {0.0f, 2.0f, 0.0f}, 0.4f, {0.0f, 0.0f, 0.0f}, 1.0f);
     Cube cube;
     cube.scale(4.0);
     cube.translate({0.0f, 2.0f, 0.0f});
