@@ -5,5 +5,6 @@
 
 class Effect {
     public:
-        virtual void apply(Vector3 *positions, Vector3 *velocities, size_t count, float dt) = 0;
+        virtual void force(Vector3 *positions, Vector3 *velocities, size_t count, float dt);
+        virtual void constraint(Vector3 *positions, Vector3 *velocities, size_t count, float dt);
 };

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Object.h"
-#include "Effect.h"
+#include "Force.h"
+#include "Collider.h"
 #include <vector>
 
 class ParticleSystem : public Object {
@@ -11,11 +12,13 @@ class ParticleSystem : public Object {
         Vector3* velocities;
         Vector3* positions;
         size_t count;
-        std::vector<Effect*> effects;
+        std::vector<Force*> forces;
+        std::vector<Collider*> colliders;
 
     public:
         ParticleSystem(size_t count);
         virtual void draw(Matrix matModel);
         void update(float dt);
-        void addEffect(Effect *effect);
+        void addForce(Force *force);
+        void addCollider(Collider *collider);
 };
