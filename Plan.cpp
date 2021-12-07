@@ -16,5 +16,4 @@ void Plan::collide(Vector3 *positions, Vector3 *velocities, size_t count) {
             positions[i] = Vector3Add(positions[i], Vector3Scale(normal, -1.9*dist));
         }
     }
-    
 }

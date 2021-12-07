@@ -14,7 +14,7 @@ ParticleSystem::ParticleSystem(size_t count) {
 
     std::random_device r;
     std::mt19937 gen(r());
-    std::uniform_real_distribution<> dis(0.0, 1.0);
+    std::uniform_real_distribution<> dis(-2.0, 2.0);
 
     for(int i=0; i<count; i++) {
         positions[i] = {(float) dis(gen), (float) dis(gen), (float) dis(gen)};
