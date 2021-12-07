@@ -5,6 +5,8 @@
 #include "raymath.h"
 #include "ParticleSystem.h"
 #include "Gravity.h"
+#include "Plan.h"
+#include <iostream>
 
 #include "compute.h"
 #include "GPU.h"
@@ -80,14 +82,34 @@ int main(void)
     SetCameraPanControl(3);
     SetTargetFPS(60);
 
-    Object scene = Object();
+    Object scene;
 
-    ParticleSystem ps = ParticleSystem(10);
+    ParticleSystem ps(10);
+    Cube cube;
+    cube.scale(4.0);
+    cube.translate({0.0f, 2.0f, 0.0f});
     Gravity g({0.0, -9.81, 0.0});
+    Plan ground(0, 1, 0, 0);
+    Plan wall1(0, 0, 1, 2);
+    Plan wall2(1, 0, 0, 2);
+    Plan wall3(-1, 0, 0, 2);
+    Plan wall4(0, 0, -1, 2);
+    Plan ceil(0, -1, 0, 4);
 
-    ps.addEffect(&g);
+    Vector3 ref = Vector3Reflect({1.0f, -1.0f, 0.0f}, {0.0f, 1.0f, 0.0f});
+    std::cout << ref.x << " " << ref.y << " " << ref.z << std::endl;
+
+    
+    ps.addForce(&g);
+    ps.addCollider(&wall1);
+    ps.addCollider(&wall2);
+    ps.addCollider(&wall3);
+    ps.addCollider(&wall4);
+    ps.addCollider(&ground);
+    ps.addCollider(&ceil);
 
     scene.add(&ps);
+    scene.add(&cube);
 
     while (!WindowShouldClose())
     {

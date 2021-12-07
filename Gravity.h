@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Effect.h"
+#include "Force.h"
 
-class Gravity : public Effect {
+class Gravity : public Force {
     private:
         Vector3 g;
 

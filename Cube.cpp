@@ -8,8 +8,8 @@ Cube::Cube() {
 }
 
 void Cube::draw(Matrix matModel) {
-    material.maps[MATERIAL_MAP_DIFFUSE].color = RED;
-    DrawMesh(mesh, material, matModel);
+    //material.maps[MATERIAL_MAP_DIFFUSE].color = RED;
+    //DrawMesh(mesh, material, matModel);
     rlEnableWireMode();
         material.maps[MATERIAL_MAP_DIFFUSE].color = BLACK;
         DrawMesh(mesh, material, matModel); 

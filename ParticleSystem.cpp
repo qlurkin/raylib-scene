@@ -29,15 +29,23 @@ void ParticleSystem::draw(Matrix matModel) {
 }
 
 void ParticleSystem::update(float dt) {
-    for(Effect *effect : effects) {
-        effect->apply(positions, velocities, count, dt);
+    for(Force *force : forces) {
+        force->apply(positions, velocities, count, dt);
     }
-    
+
     for(int i=0; i<count; i++) {
         positions[i] = Vector3Add(positions[i], Vector3Scale(velocities[i], dt));
     }
+
+    for(Collider *collider : colliders) {
+        collider->collide(positions, velocities, count);
+    }
 }
 
-void ParticleSystem::addEffect(Effect *effect) {
-    effects.push_back(effect);
+void ParticleSystem::addForce(Force *force) {
+    forces.push_back(force);
+}
+
+void ParticleSystem::addCollider(Collider *collider) {
+    colliders.push_back(collider);
 }
