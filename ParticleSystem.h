@@ -16,7 +16,7 @@ class ParticleSystem : public Object {
         std::vector<Collider*> colliders;
 
     public:
-        ParticleSystem(size_t count);
+        ParticleSystem(size_t count, Vector3 position, float deviation, Vector3 velocity, float velocityDeviation);
         virtual void draw(Matrix matModel);
         void update(float dt);
         void addForce(Force *force);
