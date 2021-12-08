@@ -3,15 +3,27 @@
 
 #include <random>
 
-ParticleSystem::ParticleSystem(size_t count, Vector3 position, float deviation, Vector3 velocity, float velocityDeviation) {
+void ParticleSystem::allocate(size_t count) {
     mesh = GenMeshSphere(0.1f, 8, 8);
     material = LoadMaterialDefault();
     material.maps[MATERIAL_MAP_DIFFUSE].color = RED;
-
     this->count = count;
     positions = new Vector3[count];
     velocities = new Vector3[count];
+}
 
+ParticleSystem::ParticleSystem(Vector3* positions, Vector3* velocities, size_t count) {
+    allocate(count);
+
+    for(int i=0; i<count; i++) {
+        this->positions[i] = positions[i];
+        this->velocities[i] = velocities[i];
+    }
+}
+
+ParticleSystem::ParticleSystem(size_t count, Vector3 position, float deviation, Vector3 velocity, float velocityDeviation) {
+    allocate(count);
+    
     std::random_device r;
     std::mt19937 gen(r());
     std::normal_distribution<> xPosDis(position.x, deviation);
