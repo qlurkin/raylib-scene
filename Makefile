@@ -1,7 +1,7 @@
 BUILD_MODE ?= RELEASE
 
-DEPS = Cube.h Object.h ModelObject.h compute.h GPU.h ParticleSystem.h Effect.h Gravity.h Plan.h Collider.h Force.h
-OBJ = main.o Object.o Cube.o ModelObject.o compute.o GPU.o ParticleSystem.o Gravity.o Plan.o
+DEPS = Cube.h Object.h ModelObject.h GPU.h ParticleSystem.h Effect.h Gravity.h Plan.h Collider.h Force.h
+OBJ = main.o Object.o Cube.o ModelObject.o GPU.o ParticleSystem.o Gravity.o Plan.o
 
 PLATFORM_OS=BSD
 ifeq ($(OS),Windows_NT)
