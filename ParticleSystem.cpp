@@ -3,8 +3,8 @@
 
 #include <random>
 
-void ParticleSystem::allocate(size_t count) {
-    mesh = GenMeshSphere(0.1f, 8, 8);
+ParticleSystem::ParticleSystem(size_t count) {
+    mesh = GenMeshSphere(0.05f, 8, 8);
     material = LoadMaterialDefault();
     material.maps[MATERIAL_MAP_DIFFUSE].color = RED;
     this->count = count;
@@ -12,18 +12,12 @@ void ParticleSystem::allocate(size_t count) {
     velocities = new Vector3[count];
 }
 
-ParticleSystem::ParticleSystem(Vector3* positions, Vector3* velocities, size_t count) {
-    allocate(count);
-
-    for(int i=0; i<count; i++) {
-        this->positions[i] = positions[i];
-        this->velocities[i] = velocities[i];
-    }
+ParticleSystem::ParticleSystem(Vector3* positions, Vector3* velocities, size_t count) : ParticleSystem(count) {
+    setPositions(positions);
+    setVelocities(velocities);
 }
 
-ParticleSystem::ParticleSystem(size_t count, Vector3 position, float deviation, Vector3 velocity, float velocityDeviation) {
-    allocate(count);
-    
+ParticleSystem::ParticleSystem(size_t count, Vector3 position, float deviation, Vector3 velocity, float velocityDeviation) : ParticleSystem(count) {
     std::random_device r;
     std::mt19937 gen(r());
     std::normal_distribution<> xPosDis(position.x, deviation);
@@ -37,6 +31,18 @@ ParticleSystem::ParticleSystem(size_t count, Vector3 position, float deviation, 
     for(int i=0; i<count; i++) {
         positions[i] = {(float) xPosDis(gen), (float) yPosDis(gen), (float) zPosDis(gen)};
         velocities[i] = {(float) xVelDis(gen), (float) yVelDis(gen), (float) zVelDis(gen)};
+    }
+}
+
+void ParticleSystem::setPositions(Vector3* positions) {
+    for(int i=0; i<count; i++) {
+        this->positions[i] = positions[i];
+    }
+}
+
+void ParticleSystem::setVelocities(Vector3* velocities) {
+    for(int i=0; i<count; i++) {
+        this->velocities[i] = velocities[i];
     }
 }
 
