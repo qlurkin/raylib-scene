@@ -8,7 +8,6 @@
 #include "Plan.h"
 #include <iostream>
 
-#include "compute.h"
 #include "GPU.h"
 
 void someCompute() {
