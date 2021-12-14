@@ -1,8 +1,6 @@
 
 #pragma once
 
-#include <cstddef>
-#include <sys/_types/_size_t.h>
 #ifdef __APPLE__
 #include <OpenCL/opencl.h>
 #else
