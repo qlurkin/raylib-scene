@@ -11,7 +11,7 @@
 #include "GPU.h"
 
 void someCompute() {
-	// Create the two input vectors
+    // Create the two input vectors
     int i;
     const int LIST_SIZE = 1024;
     int *A = new int[LIST_SIZE];
@@ -23,47 +23,47 @@ void someCompute() {
     }
 
 
-	GPU gpu;
-	gpu.init();
+    GPU gpu;
+    gpu.init();
 
-	Buffer Abuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
-	Buffer Bbuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
-	Buffer Cbuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
+    Buffer Abuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
+    Buffer Bbuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
+    Buffer Cbuff = gpu.createBuffer(sizeof(int) * LIST_SIZE);
 
-	Abuff.upload(A);
-	Bbuff.upload(B);
+    Abuff.upload(A);
+    Bbuff.upload(B);
 
-	Program program = gpu.createProgram("./kernel.cl");
+    Program program = gpu.createProgram("./kernel.cl");
 
-	Kernel kernel = program.getKernel("vector_add");
+    Kernel kernel = program.getKernel("vector_add");
 
-	kernel.setArg(0, Abuff);
-	kernel.setArg(1, Bbuff);
-	kernel.setArg(2, Cbuff);
+    kernel.setArg(0, Abuff);
+    kernel.setArg(1, Bbuff);
+    kernel.setArg(2, Cbuff);
 
-	kernel.execute(LIST_SIZE, 64);
+    kernel.execute(LIST_SIZE, 64);
 
-	Cbuff.download(C);
+    Cbuff.download(C);
 
-	for(i = 0; i < LIST_SIZE; i++)
+    for(i = 0; i < LIST_SIZE; i++)
         printf("%d + %d = %d\n", A[i], B[i], C[i]);
 
-	Abuff.destroy();
-	Bbuff.destroy();
-	Cbuff.destroy();
+    Abuff.destroy();
+    Bbuff.destroy();
+    Cbuff.destroy();
 
-	kernel.destroy();
-	program.destroy();
-	gpu.destroy();
-	
-	delete[] A;
-	delete[] B;
-	delete[] C;
+    kernel.destroy();
+    program.destroy();
+    gpu.destroy();
+    
+    delete[] A;
+    delete[] B;
+    delete[] C;
 }
 
 int main(void)
 {
-	someCompute();
+    //someCompute();
 
     const int screenWidth = 800;
     const int screenHeight = 450;
@@ -87,7 +87,7 @@ int main(void)
     Cube cube;
     cube.scale(4.0);
     cube.translate({0.0f, 2.0f, 0.0f});
-    Gravity g({0.0, -9.81, 0.0});
+    Gravity g({0.0, -9.81, 0.0}, 10);
     Plan ground(0, 1, 0, 0);
     Plan wall1(0, 0, 1, 2);
     Plan wall2(1, 0, 0, 2);
