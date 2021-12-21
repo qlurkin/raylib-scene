@@ -6,12 +6,12 @@
 class Gravity : public Force {
     private:
         Vector3 g;
-        GPU gpu;
-        Program program;
-        Kernel kernel;
+        GPU* gpu;
+        Program* program;
+        Kernel* kernel;
         size_t count;
-        Buffer vBuff;
-        Buffer gBuff;
+        Buffer* vBuff;
+        Buffer* gBuff;
 
     public:
         Gravity(Vector3 g, size_t count);

@@ -25,4 +25,5 @@ class ParticleSystem : public Object {
         void update(float dt);
         void addForce(Force *force);
         void addCollider(Collider *collider);
+        size_t getCount();
 };

@@ -73,3 +73,7 @@ void ParticleSystem::addForce(Force *force) {
 void ParticleSystem::addCollider(Collider *collider) {
     colliders.push_back(collider);
 }
+
+size_t ParticleSystem::getCount() {
+    return count;
+}
